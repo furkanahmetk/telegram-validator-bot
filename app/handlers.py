@@ -11,7 +11,7 @@ def start_command(update, context):
 
     welcomeMessage = """Hello! Welcome to Casper Validator Bot.
 Please enter your request as below:\n
-He
+
 /totaldelegators <validator's public key>
 /totalstake <validator's public key>
 /fee <validator's public key>
@@ -90,4 +90,4 @@ def responses(input_text):
 
 def error(update, error):
     print("error: ",error.error)
-    update.message.reply_text("Error: "+error.error.message)
+    update.message.reply_text("Error: "+error.error)
