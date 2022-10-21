@@ -1,13 +1,12 @@
 import requests
-import src.constants as constants
 
 """
 Onject that speciliazed for daflow to the system. It retrieves data from given address.
 """
 class Data(object):
 
-    def __init__(self):
-        self.base_url= constants.BASE_URL
+    def __init__(self,config):
+        self.base_url= config.BASE_URL
     
     def get_validator_list(self,validators_list):
         PAYLOAD = {'publicKeys':validators_list}

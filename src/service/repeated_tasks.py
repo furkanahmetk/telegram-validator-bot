@@ -21,11 +21,11 @@ It either inserts or updates the data
 """
 class Repeated_Task():
     
-    def __init__(self,updater):
-            self.data = data.Data()
+    def __init__(self,updater,config):
+            self.data = data.Data(config)
             self.validator = validator.Validator()
             self.updater = updater
-            self.bot_service = Bot_Service(self.updater)
+            self.bot_service = Bot_Service(self.updater,config)
 
     def data_cron(self):
         validators_in_db = self.validator.find({})
