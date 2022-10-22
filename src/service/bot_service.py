@@ -11,7 +11,7 @@ class Bot_Service():
 
     def start_command(self,update,context):
 
-        welcomeMessage = """Hello! Welcome to Msalel Bot.
+        welcomeMessage = """Hello! Welcome to Casper Validator Bot.
         Please enter your request as below:\n
 
         /status <validator's public key>
