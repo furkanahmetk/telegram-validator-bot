@@ -2,7 +2,6 @@ from platform import mac_ver, machine
 from re import M
 from telegram.ext import *
 from src.service.bot_service import Bot_Service
-import src.constants as constants
 import os
 from src.factory import database
 from dotenv import load_dotenv
@@ -10,7 +9,7 @@ from telegram import Update
 from telegram.ext import ContextTypes
 
 
-def create_app():
+def create_app(config):
     load_dotenv()
     updater = Updater(os.environ.get("BOT_API_KEY"), use_context= True)
 
@@ -19,7 +18,7 @@ def create_app():
     dp = updater.dispatcher
     job_queue.set_dispatcher(dp)
 
-    bot_service = Bot_Service(updater)
+    bot_service = Bot_Service(updater,config  )
 
 
     dp.add_handler(CommandHandler("start", bot_service.start_command))
@@ -36,7 +35,7 @@ def create_app():
 
     dp.add_error_handler(bot_service.error)
 
-    database.Database.init(constants.MONGO_URI,constants.DB_NAME)
+    database.Database.init(config.MONGO_URI,config.DB_NAME)
     return updater,job_queue
     
 
