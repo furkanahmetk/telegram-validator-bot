@@ -44,6 +44,26 @@ class Data(object):
             return self.get_value_from_message(message)
         else:
             return 'NONE'
+
+    def get_validator_performance(self,validator_public_key):
+        PARAMS = {'pubKey':validator_public_key}
+        r = requests.get(url = self.base_url+'/performance', params = PARAMS)
+        if r.status_code == 200:
+            data = r.json()
+            message = data['message']
+            return self.get_value_from_message(message)
+        else:
+            return 'NONE'
+
+    def get_apy(self):
+        r = requests.get(url = self.base_url+'/apy')
+        if r.status_code == 200:
+            data = r.json()
+            message = data['message']
+            return self.get_value_from_message(message)
+        else:
+            return 'NONE'
+
     def get_validator_totalDelegators(self,validator_public_key):
         PARAMS = {'pubKey':validator_public_key}
         r = requests.get(url = self.base_url+'/totalDelegators', params = PARAMS)

@@ -19,6 +19,7 @@ def test_alarm_me():
         "fee": 3,
         "delegators_number": 42,
         "total_stake": "1877642908605992",
+        "performance":99.5,
         "list_of_user_id_for_alarm": [],
         "list_of_user_id_for_update": [],
     })
@@ -53,6 +54,7 @@ def test_update_me_negative():
         "fee": 3,
         "delegators_number": 42,
         "total_stake": "1877642908605992",
+        "performance":99.5,
         "list_of_user_id_for_alarm": [],
         "list_of_user_id_for_update": [],
     })
