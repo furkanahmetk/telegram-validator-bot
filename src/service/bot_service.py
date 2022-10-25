@@ -17,6 +17,8 @@ class Bot_Service():
         /status <validator's public key>
         /totaldelegators <validator's public key>
         /totalstake <validator's public key>
+        /apy
+        /performance <validator's public key>
         /fee <validator's public key>
         /update <validator's public key>
         /alarm <validator's public key>
@@ -34,6 +36,25 @@ class Bot_Service():
                 res = "active"
             else:
                 res = "not active"
+        if res == 'NONE':
+            self.no_validator(update,context)
+            return
+        update.message.reply_text(res)
+
+    def apy(self,update, context):
+        res = self.data.get_apy()
+        if res == 'NONE':
+            self.no_apy(update,context)
+            return
+        update.message.reply_text(res)
+
+    def performance(self,update, context):
+        validator = self.get_validator_key(update)
+        asked_validator = self.validator.find_one_by_public_key(validator)
+        if asked_validator == "NONE":
+            res = self.data.get_validator_performance(validator)
+        else:
+            res = asked_validator['performance']
         if res == 'NONE':
             self.no_validator(update,context)
             return
@@ -92,6 +113,7 @@ class Bot_Service():
                     'is_active':validator_new['is_active'],
                     'fee':validator_new['fee'],
                     'total_stake':validator_new['total_stake'],
+                    'performance':validator_new['performance'],
                     'delegators_number':validator_new['delegators_number'],
                     'list_of_user_id_for_alarm':[],
                     'list_of_user_id_for_update':[user_id]
@@ -106,6 +128,7 @@ class Bot_Service():
                     'fee':validator_in_db['fee'],
                     'total_stake':validator_in_db['total_stake'],
                     'delegators_number':validator_in_db['delegators_number'],
+                    'performance':validator_in_db['performance'],
                     'list_of_user_id_for_alarm':validator_in_db['list_of_user_id_for_alarm'],
                     'list_of_user_id_for_update':validator_in_db['list_of_user_id_for_update']
                 })
@@ -128,6 +151,7 @@ class Bot_Service():
                 'is_active':validator_in_db['is_active'],
                 'fee':validator_in_db['fee'],
                 'total_stake':validator_in_db['total_stake'],
+                'performance':validator_in_db['performance'],
                 'delegators_number':validator_in_db['delegators_number'],
                 'list_of_user_id_for_alarm':validator_in_db['list_of_user_id_for_alarm'],
                 'list_of_user_id_for_update':validator_in_db['list_of_user_id_for_update']
@@ -152,6 +176,7 @@ class Bot_Service():
                     'fee':validator_new['fee'],
                     'total_stake':validator_new['total_stake'],
                     'delegators_number':validator_new['delegators_number'],
+                    'performance':validator_new['performance'],
                     'list_of_user_id_for_alarm':[user_id],
                     'list_of_user_id_for_update':[]
                 })
@@ -165,6 +190,7 @@ class Bot_Service():
                     'fee':validator_in_db['fee'],
                     'total_stake':validator_in_db['total_stake'],
                     'delegators_number':validator_in_db['delegators_number'],
+                    'performance':validator_in_db['performance'],
                     'list_of_user_id_for_alarm':validator_in_db['list_of_user_id_for_alarm'],
                     'list_of_user_id_for_update':validator_in_db['list_of_user_id_for_update']
                 })
@@ -175,15 +201,19 @@ class Bot_Service():
         welcomeMessage = """Sorry we could not found validator with this public key."""
         update.message.reply_text(welcomeMessage)
 
+    def no_apy(self,update,context):
+        welcomeMessage = """Sorry we could not get apy from system"""
+        update.message.reply_text(welcomeMessage)
+    
+    def get_apy_value(self,text):
+        return text.split('apy:')[1]
+
     def update_user(self, message, user_id_list):
         for user_id in user_id_list:
             self.updater.bot.sendMessage(chat_id=user_id, text=message)
        
 
-       
-
     def error(self,update, error):
-        print("error: ",error.error)
         update.message.reply_text(f"Error: {error.error}")
 
     def get_validator_key(self,update):

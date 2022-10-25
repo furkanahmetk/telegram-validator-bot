@@ -18,6 +18,7 @@ class Validator(object):
             "fee": "float",
             "total_stake": "float",
             "delegators_number": "float",
+            "performance": "float",
             "list_of_user_id_for_alarm": ["string"],
             "list_of_user_id_for_update": ["string"],
             "created": "datetime",
@@ -25,7 +26,7 @@ class Validator(object):
         }
 
         self.create_required_fields = ["public_key", "is_active", "fee", "delegators_number", 
-                                       "total_stake","list_of_user_id_for_alarm","list_of_user_id_for_update"]
+                                       "total_stake","list_of_user_id_for_alarm","list_of_user_id_for_update","performance"]
 
         # Fields optional for CREATE
         self.create_optional_fields = [
@@ -33,14 +34,14 @@ class Validator(object):
 
         # Fields required for UPDATE
         self.update_required_fields =  ["public_key", "is_active", "fee", "delegators_number", 
-                                       "total_stake","list_of_user_id_for_alarm","list_of_user_id_for_update"]
+                                       "total_stake","list_of_user_id_for_alarm","list_of_user_id_for_update","performance"]
 
         # Fields optional for UPDATE
         self.update_optional_fields = [
             "_id", "created", "updated"]
     
     def convert_to_message(self,validator):
-        return f"public Key: {validator['public_key']}\n fee:{validator['fee']}\n total stake:{validator['total_stake']}\n status:{validator['is_active']}\n delegators count: {validator['delegators_number']}"
+        return f"public Key: {validator['public_key']}\n fee:{validator['fee']}\n total stake:{validator['total_stake']}\n performance:{validator['performance']}\n status:{validator['is_active']}\n delegators count: {validator['delegators_number']}"
 
     def create(self, validator):
         # Validator will throw error if invalid
