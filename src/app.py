@@ -26,10 +26,11 @@ def create_app(config):
     dp.add_handler(CommandHandler("totaldelegators", bot_service.total_delegators))
     dp.add_handler(CommandHandler("totalstake", bot_service.total_stake))
     dp.add_handler(CommandHandler("fee", bot_service.fee))
+    dp.add_handler(CommandHandler("apy", bot_service.apy))
+    dp.add_handler(CommandHandler("performance", bot_service.performance))
     dp.add_handler(CommandHandler("update", bot_service.update_me))
     dp.add_handler(CommandHandler("alarm", bot_service.alarm_me))
     dp.add_handler(CommandHandler("forget", bot_service.forget_validator))
-    #dp.add_handler(CommandHandler("start_timer", bot_service.start_timer, pass_job_queue=True))
 
     #dp.add_handler(MessageHandler(Filters.text, bot_service.handle_message))
 
@@ -42,6 +43,6 @@ def create_app(config):
     
 
 def start_app(updater,job_queue):
-    updater.start_polling()
+    updater.start_polling(allowed_updates=Update.ALL_TYPES)
     job_queue.start()
     updater.idle()

@@ -9,7 +9,8 @@ class Alarm_Change(Enum):
     FEE_INCREASE = 'FEE INCREASE'
     FEE_DECREASE = 'FEE DECREASE'
     DELEGATOR_NUMBER = 'DELEGATOR NUMBER CHANGE'
-    TOTAL_STAKE = 'TOTAL STAKE CHANGE'
+    PERFORMANCE_INCREASE = 'PERFORMANCE INCREASE'
+    PERFORMANCE_DECREASE = 'PERFORMANCE DROP'
     ACTIVE = 'ACTIVATION'
     NOT_ACTIVE = 'DEACTIVATION'
     NONE = 'no change happened'
@@ -65,8 +66,11 @@ class Repeated_Task():
                 return Alarm_Change.FEE_DECREASE
         if (old_item['delegators_number'] != new_item['delegators_number']):
             return Alarm_Change.DELEGATOR_NUMBER
-        if (old_item['total_stake'] != new_item['total_stake']):
-            return Alarm_Change.TOTAL_STAKE
+        if (old_item['performance'] != new_item['performance']):
+            if new_item['performance'] > old_item['performance']:
+                return Alarm_Change.PERFORMANCE_INCREASE
+            else: 
+                return Alarm_Change.PERFORMANCE_DECREASE
         return Alarm_Change.NONE
         
 
@@ -87,5 +91,6 @@ class Repeated_Task():
                 item['is_active'] = new_item['is_active']
                 item['delegators_number'] = new_item['delegators_number']
                 item['total_stake'] = new_item['total_stake']
+                item['performance'] = new_item['performance']
                 new_validator_list.append(item)
         self.validator.update_many(new_validator_list)
