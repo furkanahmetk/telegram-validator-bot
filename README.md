@@ -14,26 +14,34 @@ Also, in the [Install DB File](assets/INSTALL%20DB.md) it is explained how to in
 
 ### How to set-up
 
-1. Clone the repository.
+1. Run [back-end](https://github.com/furkanahmetk/Casper-Bot-Optimized-API).
+
+2. Clone the repository.
 ```
 $ git clone https://github.com/furkanahmetk/telegram-validator-bot
 ```
 
-2. Navigate to repository folder.
+3. Navigate to repository folder.
 ```
 $ cd telegram-validator-bot
 ```
-3. Create a `.env` file from the `example.env` template:
+4. Create a `.env` file from the `example.env` template:
 
 ```shell
 $ cp example.env .env
 ```
 
-4. Create a new Telegram bot. See [how to](assets/telegram.md)
+5. Create a new Telegram bot. See [how to](assets/telegram.md)
 
-5. Copy your Telegram bot token to .env file.
+6. Copy your Telegram bot token to .env file.
 
-6. Run MongoDB.
+7. Edit `src/config.pg`
+
+``
+Add your local URL and port to BASE_URL variable. It is set to 'http://localhost:5555/' by default.
+``
+
+8. Run MongoDB.
 
 ````shell
 $ mongosh
