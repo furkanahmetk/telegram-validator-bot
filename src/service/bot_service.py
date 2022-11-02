@@ -11,18 +11,17 @@ class Bot_Service():
 
     def start_command(self,update,context):
 
-        welcomeMessage = """Hello! Welcome to Casper Validator Bot.
-        Please enter your request as below:\n
-
-        /status <validator's public key>
-        /totaldelegators <validator's public key>
-        /totalstake <validator's public key>
-        /apy
-        /performance <validator's public key>
-        /fee <validator's public key>
-        /update <validator's public key>
-        /alarm <validator's public key>
-        /forget <validator's public key>
+        welcomeMessage = """Hello👋 Welcome to Casper Validator Bot.\n
+Please enter your request as below:
+/status <validator's public key>
+/totaldelegators <validator's public key>
+/totalstake <validator's public key>
+/apy
+/performance <validator's public key>
+/fee <validator's public key>
+/update <validator's public key>
+/alarm <validator's public key>
+/forget <validator's public key>
         """
         update.message.reply_text(welcomeMessage)
 
@@ -39,14 +38,17 @@ class Bot_Service():
         if res == 'NONE':
             self.no_validator(update,context)
             return
-        update.message.reply_text(res)
+        res_validator = validator[:5:] + "..."+ validator[-5::]
+        res_message = "Status of "+res_validator+": "+res.upper()
+        update.message.reply_text(res_message)
 
     def apy(self,update, context):
         res = self.data.get_apy()
         if res == 'NONE':
             self.no_apy(update,context)
             return
-        update.message.reply_text(res)
+        res_message="Annual Percentage Yield: "+str(res)
+        update.message.reply_text(res_message)
 
     def performance(self,update, context):
         validator = self.get_validator_key(update)
@@ -58,7 +60,9 @@ class Bot_Service():
         if res == 'NONE':
             self.no_validator(update,context)
             return
-        update.message.reply_text(res)
+        res_validator = validator[:5:] + "..."+ validator[-5::]
+        res_message = "Performance of "+str(res_validator)+": "+str(round(res))+"%"
+        update.message.reply_text(res_message)
 
     def total_delegators(self,update, context):
         validator = self.get_validator_key(update)
@@ -70,7 +74,9 @@ class Bot_Service():
         if res == 'NONE':
             self.no_validator(update,context)
             return
-        update.message.reply_text(res)
+        res_validator = validator[:5:] + "..."+ validator[-5::]
+        res_message = "The number of total delegators of "+str(res_validator)+": "+str(res)
+        update.message.reply_text(res_message)
 
     def total_stake(self,update, context):
         validator = self.get_validator_key(update)
@@ -82,7 +88,10 @@ class Bot_Service():
         if res == 'NONE':
             self.no_validator(update,context)
             return
-        update.message.reply_text(res)
+        res_validator = validator[:5:] + "..."+ validator[-5::]
+        res = int(res) / (10**9)
+        res_message = "The number of total stake of "+str(res_validator)+": "+str(round(res))
+        update.message.reply_text(res_message)
     
     def fee(self,update, context):
         validator = self.get_validator_key(update)
@@ -94,7 +103,9 @@ class Bot_Service():
         if res == 'NONE':
             self.no_validator(update,context)
             return
-        update.message.reply_text(res)
+        res_validator = validator[:5:] + "..."+ validator[-5::]
+        res_message = "The fee of "+str(res_validator)+": "+str(res)
+        update.message.reply_text(res_message)
 
     def update_me(self,update,context):
         validator_key = self.get_validator_key(update)
