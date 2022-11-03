@@ -2,7 +2,7 @@ from src.service.data import Data
 from src.model.validator import Validator
 validator = str #global variable for holding the user's validator ID(pubKey)
 # Function to start conversation and welcome the user
-
+empty_pubkey_error = "Please type a validator public key!"
 class Bot_Service():
     def __init__(self,updater,config):
             self.data = Data(config)
@@ -11,8 +11,8 @@ class Bot_Service():
 
     def start_command(self,update,context):
 
-        welcomeMessage = """Hello👋 Welcome to Casper Validator Bot.\n
-Please enter your request as below:
+        update.message.reply_text("Hello👋 Welcome to Casper Validator Bot.")
+        welcomeMessage = """Please enter your request as below:
 /status <validator's public key>
 /totaldelegators <validator's public key>
 /totalstake <validator's public key>
@@ -27,7 +27,10 @@ Please enter your request as below:
 
     def status(self,update, context):
         validator = self.get_validator_key(update)
-        asked_validator = self.validator.find_one_by_public_key(validator)
+        asked_validator = self.validator.find_one_by_public_key(validator)        
+        if len(update.message.text.split()) != 2:
+            update.message.reply_text(empty_pubkey_error)
+            return
         if asked_validator == "NONE":
             res = self.data.get_validator_status(validator)
         else:
@@ -53,6 +56,9 @@ Please enter your request as below:
     def performance(self,update, context):
         validator = self.get_validator_key(update)
         asked_validator = self.validator.find_one_by_public_key(validator)
+        if len(update.message.text.split()) != 2:
+            update.message.reply_text(empty_pubkey_error)
+            return
         if asked_validator == "NONE":
             res = self.data.get_validator_performance(validator)
         else:
@@ -67,6 +73,9 @@ Please enter your request as below:
     def total_delegators(self,update, context):
         validator = self.get_validator_key(update)
         asked_validator = self.validator.find_one_by_public_key(validator)
+        if len(update.message.text.split()) != 2:
+            update.message.reply_text(empty_pubkey_error)
+            return
         if asked_validator == "NONE":
             res = self.data.get_validator_totalDelegators(validator)
         else:
@@ -81,6 +90,9 @@ Please enter your request as below:
     def total_stake(self,update, context):
         validator = self.get_validator_key(update)
         asked_validator = self.validator.find_one_by_public_key(validator)
+        if len(update.message.text.split()) != 2:
+            update.message.reply_text(empty_pubkey_error)
+            return
         if asked_validator == "NONE":
             res = self.data.get_validator_totalStake(validator)
         else:
@@ -90,26 +102,40 @@ Please enter your request as below:
             return
         res_validator = validator[:5:] + "..."+ validator[-5::]
         res = int(res) / (10**9)
-        res_message = "The number of total stake of "+str(res_validator)+": "+str(round(res))
+        res_message = "The number of total stake of "+str(res_validator)+": "+str(round(res,ndigits=2))
         update.message.reply_text(res_message)
     
     def fee(self,update, context):
         validator = self.get_validator_key(update)
         asked_validator = self.validator.find_one_by_public_key(validator)
+        
+        if len(update.message.text.split()) != 2:
+            update.message.reply_text(empty_pubkey_error)
+            return
+        
         if asked_validator == "NONE":
+            
             res = self.data.get_validator_delegationRate(validator),
         else:
             res = asked_validator['fee']
-        if res == 'NONE':
-            self.no_validator(update,context)
+        
+        if isinstance(res,float):
+            res_validator = validator[:5:] + "..."+ validator[-5::]
+            res_message = "The fee of "+str(res_validator)+": "+str(res)+"%"
+            update.message.reply_text(res_message)
             return
-        res_validator = validator[:5:] + "..."+ validator[-5::]
-        res_message = "The fee of "+str(res_validator)+": "+str(res)
-        update.message.reply_text(res_message)
+        elif isinstance(res[0],str):
+            if(res[0]=='NONE'):
+                self.no_validator(update,context)
+                return
+
 
     def update_me(self,update,context):
         validator_key = self.get_validator_key(update)
         validator_in_db = self.validator.find_one_by_public_key(validator_key)
+        if len(update.message.text.split()) != 2:
+            update.message.reply_text(empty_pubkey_error)
+            return
         if validator_in_db == 'NONE':
             update_list = [validator_key]
             validator_new = self.data.get_validator_list(update_list)
@@ -148,6 +174,9 @@ Please enter your request as below:
     def forget_validator(self,update,context):
         validator_key = self.get_validator_key(update)
         validator_in_db = self.validator.find_one_by_public_key(validator_key)
+        if len(update.message.text.split()) != 2:
+            update.message.reply_text(empty_pubkey_error)
+            return
         if validator_in_db == 'NONE':
             self.no_validator(update,context)
             return
@@ -172,6 +201,9 @@ Please enter your request as below:
     def alarm_me(self,update,context):
         validator_key = self.get_validator_key(update)
         validator_in_db = self.validator.find_one_by_public_key(validator_key)
+        if len(update.message.text.split()) != 2:
+            update.message.reply_text(empty_pubkey_error)
+            return
         if validator_in_db == 'NONE':
             update_list = [validator_key]
             validator_new = self.data.get_validator_list(update_list)
@@ -229,5 +261,7 @@ Please enter your request as below:
 
     def get_validator_key(self,update):
         text = update.message.text
+        if len(text.split()) != 2:
+            return 
         return text.split()[1]
 
