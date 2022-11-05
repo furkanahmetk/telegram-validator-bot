@@ -37,8 +37,8 @@ def test_status():
     bot_ser.status(mocked_update, mocked_context)
 
     mocked_update.message.reply_text.assert_called()
-
-    response = "active"
+    res_validator = public_key[:5:] + "..."+ public_key[-5::]
+    response = "Status of "+res_validator+": ACTIVE"
     mocked_update.message.reply_text.assert_called_with(response)
 
 

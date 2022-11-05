@@ -16,7 +16,7 @@ def test_fee():
     validate.create({
         "public_key": public_key,
         "is_active": True,
-        "fee": 3,
+        "fee": 3.0,
         "delegators_number": 42,
         "total_stake": "1877642908605992",
         "performance":99.5,
@@ -37,12 +37,12 @@ def test_fee():
     bot_ser.fee(mocked_update, mocked_context)
 
     mocked_update.message.reply_text.assert_called()
-
-    response = 3
+    res_validator = public_key[:5:] + "..."+ public_key[-5::]
+    response = "The fee of "+str(res_validator)+": 3.0%"
     mocked_update.message.reply_text.assert_called_with(response)
 
 
-def test_total_delegators_negative():
+def test_fee_negative():
     """
     GIVEN provider type
     WHEN providerValidate function called
@@ -54,7 +54,7 @@ def test_total_delegators_negative():
     validate.create({
         "public_key": public_key,
         "is_active": True,
-        "fee": 3,
+        "fee": 3.0,
         "delegators_number": 42,
         "total_stake": "1877642908605992",
         "performance":99.5,
