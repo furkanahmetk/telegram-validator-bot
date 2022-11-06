@@ -67,7 +67,7 @@ class Bot_Service():
             self.no_validator(update,context)
             return
         res_validator = validator[:5:] + "..."+ validator[-5::]
-        res_message = "Performance of "+str(res_validator)+": "+str(round(float(res)))+"%"
+        res_message = "Performance of "+str(res_validator)+": "+str(round(float(res),ndigits=1))+"%"
         update.message.reply_text(res_message)
 
     def total_delegators(self,update, context):
