@@ -37,8 +37,9 @@ def test_performance():
     bot_ser.performance(mocked_update, mocked_context)
 
     mocked_update.message.reply_text.assert_called()
-
-    response = 99.5
+    res_validator = public_key[:5:] + "..."+ public_key[-5::]
+    response = "Performance of "+str(res_validator)+": 100%"
+    
     mocked_update.message.reply_text.assert_called_with(response)
 
 

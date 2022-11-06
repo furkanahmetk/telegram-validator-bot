@@ -37,8 +37,8 @@ def test_total_stake():
     bot_ser.total_stake(mocked_update, mocked_context)
 
     mocked_update.message.reply_text.assert_called()
-
-    response = "1877642908605992"
+    res_validator = public_key[:5:] + "..."+ public_key[-5::]
+    response = "The number of total stake of " + str(res_validator) +": 1877642.91"
     mocked_update.message.reply_text.assert_called_with(response)
 
 

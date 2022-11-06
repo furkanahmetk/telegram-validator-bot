@@ -33,12 +33,14 @@ def test_total_delegators():
     updater = Mock()
 
     bot_ser = bot_service.Bot_Service(updater, TestingConfig)
+    
 
     bot_ser.total_delegators(mocked_update, mocked_context)
 
     mocked_update.message.reply_text.assert_called()
-
-    response = 42
+    "b16fe...cc69a: 42"
+    res_validator = public_key[:5:] + "..."+ public_key[-5::]
+    response = "The number of total delegators of "+res_validator+": 42"
     mocked_update.message.reply_text.assert_called_with(response)
 
 

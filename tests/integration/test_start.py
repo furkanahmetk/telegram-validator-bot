@@ -8,18 +8,16 @@ def test_start():
     WHEN providerValidate function called
     THEN check the returned value raised an error
     """
-    welcomeMessage = """Hello! Welcome to Casper Validator Bot.
-        Please enter your request as below:\n
-
-        /status <validator's public key>
-        /totaldelegators <validator's public key>
-        /totalstake <validator's public key>
-        /apy
-        /performance <validator's public key>
-        /fee <validator's public key>
-        /update <validator's public key>
-        /alarm <validator's public key>
-        /forget <validator's public key>
+    welcomeMessage = """Please enter your request as below:
+/status <validator's public key>
+/totaldelegators <validator's public key>
+/totalstake <validator's public key>
+/apy
+/performance <validator's public key>
+/fee <validator's public key>
+/update <validator's public key>
+/alarm <validator's public key>
+/forget <validator's public key>
         """
     
     mocked_update = Mock()
