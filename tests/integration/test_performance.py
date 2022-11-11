@@ -38,7 +38,7 @@ def test_performance():
 
     mocked_update.message.reply_text.assert_called()
     res_validator = public_key[:5:] + "..."+ public_key[-5::]
-    response = "Performance of "+str(res_validator)+": 100%"
+    response = "Performance of "+str(res_validator)+": 99.5%"
     
     mocked_update.message.reply_text.assert_called_with(response)
 
