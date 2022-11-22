@@ -41,7 +41,13 @@ class Validator(object):
             "_id", "created", "updated"]
     
     def convert_to_message(self,validator):
-        return f"public Key: {validator['public_key']}\n fee:{validator['fee']}\n total stake:{validator['total_stake']}\n performance:{validator['performance']}\n status:{validator['is_active']}\n delegators count: {validator['delegators_number']}"
+        total_stake = int(validator['total_stake']) / (10**9)
+        if validator['is_active']:
+                status = "active"
+        else:
+                status = "not active"
+        public_key = validator['public_key'][:5:] + "..."+ validator['public_key'][-5::]
+        return f"{public_key}\nfee:{validator['fee']}%\ntotal stake:{str(round(total_stake,ndigits=2))}\nperformance:{str(round(float(validator['performance']),ndigits=1))}%\nstatus:{status.upper()}\ndelegators count:{validator['delegators_number']}"
 
     def create(self, validator):
         # Validator will throw error if invalid
