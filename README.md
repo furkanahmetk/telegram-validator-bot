@@ -54,7 +54,7 @@ $ make run
 ```
 ### Run tests
 ```shell
-$ make tests
+$ make test
 ```
 
 ## Bot Usage
