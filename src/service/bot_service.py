@@ -112,22 +112,16 @@ class Bot_Service():
         if len(update.message.text.split()) != 2:
             update.message.reply_text(empty_pubkey_error)
             return
-        
         if asked_validator == "NONE":
-            
-            res = self.data.get_validator_delegationRate(validator),
+            res = self.data.get_validator_delegationRate(validator)
         else:
             res = asked_validator['fee']
         
-        if isinstance(res,float):
-            res_validator = validator[:5:] + "..."+ validator[-5::]
-            res_message = "The fee of "+str(res_validator)+": "+str(res)+"%"
-            update.message.reply_text(res_message)
-            return
-        elif isinstance(res[0],str):
-            if(res[0]=='NONE'):
-                self.no_validator(update,context)
-                return
+        
+        res_validator = validator[:5:] + "..."+ validator[-5::]
+        res_message = "The fee of "+str(res_validator)+": "+str(res)+"%"
+        update.message.reply_text(res_message)
+        return
 
 
     def update_me(self,update,context):

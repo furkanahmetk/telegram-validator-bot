@@ -23,7 +23,7 @@ class Data(object):
         if r.status_code == 200:
             data = r.json()
             message = data['message']
-            return self.get_value_from_message(message)
+            return message
         else:
             return 'NONE'
     def get_validator_delegationRate(self,validator_public_key):
@@ -32,7 +32,7 @@ class Data(object):
         if r.status_code == 200:
             data = r.json()
             message = data['message']
-            return self.get_value_from_message(message)
+            return message
         else:
             return 'NONE'
     def get_validator_totalStake(self,validator_public_key):
@@ -41,7 +41,7 @@ class Data(object):
         if r.status_code == 200:
             data = r.json()
             message = data['message']
-            return self.get_value_from_message(message)
+            return message
         else:
             return 'NONE'
 
@@ -51,7 +51,7 @@ class Data(object):
         if r.status_code == 200:
             data = r.json()
             message = data['message']
-            return self.get_value_from_message(message)
+            return message
         else:
             return 'NONE'
 
@@ -60,7 +60,7 @@ class Data(object):
         if r.status_code == 200:
             data = r.json()
             message = data['message']
-            return self.get_value_from_message(message)
+            return message
         else:
             return 'NONE'
 
@@ -70,7 +70,7 @@ class Data(object):
         if r.status_code == 200:
             data = r.json()
             message = data['message']
-            return self.get_value_from_message(message)
+            return message
         else:
             return 'NONE'
 

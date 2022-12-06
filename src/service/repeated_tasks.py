@@ -38,10 +38,31 @@ class Repeated_Task():
         new_validator_values = self.data.get_validator_list(validators_in_db_public_keys)
         new_validator_values_dict = {item['public_key']: item for item in new_validator_values}
 
-        
-        self.alarm_users(validators_in_db_dict,new_validator_values_dict)
-        self.update_users(validators_in_db_dict,new_validator_values_dict)
         self.update_data(validators_in_db_dict,new_validator_values_dict)
+
+    def alarm_cron(self):
+        validators_in_db = self.validator.find({})
+        validators_in_db_public_keys = [item['public_key'] for item in validators_in_db]
+        validators_in_db_dict = {item['public_key']: item for item in validators_in_db}
+
+
+        #Get validator data from data object
+        new_validator_values = self.data.get_validator_list(validators_in_db_public_keys)
+        new_validator_values_dict = {item['public_key']: item for item in new_validator_values}
+
+        self.alarm_users(validators_in_db_dict,new_validator_values_dict)
+
+    def update_cron(self):
+        validators_in_db = self.validator.find({})
+        validators_in_db_public_keys = [item['public_key'] for item in validators_in_db]
+        validators_in_db_dict = {item['public_key']: item for item in validators_in_db}
+
+
+        #Get validator data from data object
+        new_validator_values = self.data.get_validator_list(validators_in_db_public_keys)
+        new_validator_values_dict = {item['public_key']: item for item in new_validator_values}
+
+        self.update_users(validators_in_db_dict,new_validator_values_dict)
 
     def alarm_users(self,db_validators,new_validators):
         for key in new_validators:

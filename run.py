@@ -9,6 +9,8 @@ if __name__ == '__main__':
     scheduler = APScheduler()
     task = Repeated_Task(updater,ProdConfig)
     scheduler.add_job(id = '1', func = task.data_cron, trigger = 'interval', seconds = 30)
+    scheduler.add_job(id = '2', func = task.alarm_cron, trigger = 'interval', seconds = 2*60)
+    scheduler.add_job(id = '3', func = task.update_cron, trigger = 'interval', seconds =  30*60)
     scheduler.start()
     start_app(updater,job_queue)
 
